@@ -43,7 +43,7 @@ public class ElevatorService {
 
         if (elevator.isDoorsOpened()){
             try {
-                Thread.sleep(2000 );
+                Thread.sleep(doorsDelay);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
@@ -70,7 +70,7 @@ public class ElevatorService {
 
             elevator.setDoorsOpened(true);
             try {
-                Thread.sleep(2000 );
+                Thread.sleep(doorsDelay);
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
