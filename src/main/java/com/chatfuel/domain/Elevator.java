@@ -10,7 +10,9 @@ public class Elevator {
     @Setter @Getter private int currentFloor;
     @Setter @Getter private Queue<Person> inside = new PriorityQueue<>(personComparator);
     @Setter @Getter private Queue<Person> outside = new PriorityQueue<>(personComparator);
+
     @Setter @Getter private boolean doorsOpened = false;
+    @Setter @Getter private boolean underOperate = false;
 
     public Elevator(int floorTotal) {
         this.currentFloor = new Random().nextInt(floorTotal);

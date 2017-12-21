@@ -44,7 +44,9 @@ public class ElevatorController {
 
         Elevator applicableElevator = service.getApplicableElevator();
         applicableElevator.addPersonToQueueOutside(person);
-        service.operateElevator(applicableElevator);
+
+        if (!applicableElevator.isUnderOperate())
+            service.operateElevator(applicableElevator);
 
         return new ResponseEntity(applicableElevator, HttpStatus.OK);
     }

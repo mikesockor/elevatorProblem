@@ -38,6 +38,9 @@ public class ElevatorService {
 
     public void operateElevator(Elevator elevator){
 
+        elevator.setUnderOperate(true);
+        IntSummaryStatistics inStream = IntStream.of(getElevatorPriorFloor(elevator), elevator.getCurrentFloor()).summaryStatistics();
+
         if (elevator.isDoorsOpened()){
             try {
                 Thread.sleep(2000 );
@@ -50,7 +53,6 @@ public class ElevatorService {
 
         Thread thread = new Thread(() -> {
 
-            IntSummaryStatistics inStream = IntStream.of(getElevatorPriorFloor(elevator), elevator.getCurrentFloor()).summaryStatistics();
             IntStream.rangeClosed(inStream.getMin(), inStream.getMax())
                     .boxed()
                     .sorted(elevator.getCurrentFloor()==inStream.getMin() ? Comparator.naturalOrder() : Comparator.reverseOrder() )
@@ -73,6 +75,8 @@ public class ElevatorService {
                 ex.printStackTrace();
             }
             System.out.println("Doors open");
+
+            elevator.setUnderOperate(false);
 
         });
         thread.start();
