@@ -84,7 +84,7 @@ public class ElevatorService {
             operateDoorToOpen(elevator);
 
 //            elevator.getInside().add(nextPerson);
-            
+
             if (elevator.getInside().size()>0 || elevator.getOutside().size()>0)
                 operateElevator(elevator);
 
