@@ -78,8 +78,12 @@ public class ElevatorService {
 
             elevator.setUnderOperate(false);
 
+            if (elevator.getOutside().size()>0)
+                operateElevator(elevator);
+
         });
         thread.start();
+
     }
 
     private int getElevatorPriorFloor(Elevator elevator){
