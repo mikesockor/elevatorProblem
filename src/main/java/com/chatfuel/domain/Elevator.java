@@ -13,6 +13,7 @@ public class Elevator {
 
     @Setter @Getter private boolean doorsOpened = false;
     @Setter @Getter private boolean underOperate = false;
+    @Setter @Getter private Direction direction;
 
     public Elevator(int floorTotal) {
         this.currentFloor = new Random().nextInt(floorTotal);
@@ -20,6 +21,9 @@ public class Elevator {
 
     public void addPersonToQueueOutside(Person person){
         outside.add(person);
+    }
+    public void addPersonToQueueInside(Person person){
+        inside.add(person);
     }
 
     //Comparator anonymous class implementation

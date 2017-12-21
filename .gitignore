@@ -74,7 +74,6 @@ fabric.properties
 hs_err_pid*
 
 .idea/
-cahtfuel.iml
 src/main/resources/
 src/test/
 target/

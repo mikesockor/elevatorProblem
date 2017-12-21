@@ -1,6 +1,8 @@
 package com.chatfuel;
 
+import com.chatfuel.domain.Direction;
 import com.chatfuel.domain.Elevator;
+import com.chatfuel.domain.Person;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ public class ElevatorService {
 
     public void elevatorInitiate(){
         elevators = Collections.nCopies(elevatorNumber, new Elevator(floorTotal));
+        elevators.forEach(e->System.out.println(e.toString()+" Current floor is: "+e.getCurrentFloor()));
     }
 
     /**
@@ -36,58 +39,85 @@ public class ElevatorService {
         return elevators.get(0);
     }
 
-    public void operateElevator(Elevator elevator){
+    public void operateElevator(Elevator elevator) {
 
-        elevator.setUnderOperate(true);
-        IntSummaryStatistics inStream = IntStream.of(getElevatorPriorFloor(elevator), elevator.getCurrentFloor()).summaryStatistics();
+        Person nextPerson;
+        IntSummaryStatistics inStream;
 
-        if (elevator.isDoorsOpened()){
-            try {
-                Thread.sleep(doorsDelay);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            elevator.setDoorsOpened(false);
-            System.out.println("Doors are closing");
+        if (elevator.isUnderOperate()){
+            nextPerson = elevator.getInside().poll();
+            inStream = IntStream
+                    .of(nextPerson.getDesireFloor(), elevator.getCurrentFloor())
+                    .summaryStatistics();
+        }
+        else {
+            elevator.setUnderOperate(true);
+            nextPerson = elevator.getOutside().poll();
+            inStream = IntStream
+                    .of(nextPerson.getCurrentFloor(), elevator.getCurrentFloor())
+                    .summaryStatistics();
         }
 
-        Thread thread = new Thread(() -> {
+        elevator.setDirection(elevator.getCurrentFloor()==inStream.getMin() ? Direction.UP : Direction.DOWN);
+
+        Runnable runnable = () -> {
+
+            operateDoorToClose(elevator);
 
             IntStream.rangeClosed(inStream.getMin(), inStream.getMax())
                     .boxed()
-                    .sorted(elevator.getCurrentFloor()==inStream.getMin() ? Comparator.naturalOrder() : Comparator.reverseOrder() )
+                    .sorted(elevator.getDirection()==Direction.UP ? Comparator.naturalOrder() : Comparator.reverseOrder() )
                     .forEach(e->{
 
                         try {
-                            Thread.sleep(2000 );
+                            Thread.sleep((long)(speed/floorHeight*1000) );
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }
                         elevator.setCurrentFloor(e);
-                        System.out.println("Current floor is: "+e);
+                        System.out.println(elevator.toString()+""
+                                +(elevator.getDirection()==Direction.UP?"▲":"▼")
+                                +" Current floor is: "+e);
 
                     });
 
-            elevator.setDoorsOpened(true);
-            try {
-                Thread.sleep(doorsDelay);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
-            System.out.println("Doors open");
+            operateDoorToOpen(elevator);
+
+//            elevator.getInside().add(nextPerson);
+            
+            if (elevator.getInside().size()>0 || elevator.getOutside().size()>0)
+                operateElevator(elevator);
 
             elevator.setUnderOperate(false);
 
-            if (elevator.getOutside().size()>0)
-                operateElevator(elevator);
-
-        });
-        thread.start();
+        };
+        Thread t = new Thread(runnable);
+        t.start();
 
     }
 
-    private int getElevatorPriorFloor(Elevator elevator){
+    private void operateDoorToClose(Elevator elevator){
 
-        return elevator.getOutside().poll().getCurrentFloor();
+        if (elevator.isDoorsOpened()){
+            try {
+                Thread.sleep(doorsDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            elevator.setDoorsOpened(false);
+            System.out.println(elevator.toString()+ " Doors are closing");
+        }
+
+    }
+
+    private void operateDoorToOpen(Elevator elevator){
+
+        elevator.setDoorsOpened(true);
+        try {
+            Thread.sleep(doorsDelay);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        System.out.println(elevator.toString()+ " Doors open");
     }
 }

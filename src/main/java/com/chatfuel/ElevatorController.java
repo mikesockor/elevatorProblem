@@ -1,5 +1,6 @@
 package com.chatfuel;
 
+import com.chatfuel.domain.Direction;
 import com.chatfuel.domain.Elevator;
 import com.chatfuel.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
