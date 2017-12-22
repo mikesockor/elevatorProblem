@@ -8,24 +8,18 @@ import java.util.*;
 public class Elevator {
 
     @Setter @Getter private int currentFloor;
-    @Setter @Getter private Queue<Person> inside = new PriorityQueue<>(personComparator);
-    @Setter @Getter private Queue<Person> outside = new PriorityQueue<>(personComparator);
+    @Setter @Getter private Queue<Person> queue;
 
-    @Setter @Getter private boolean doorsOpened = false;
-    @Setter @Getter private boolean underOperate = false;
+    @Setter @Getter private boolean doorsOpened;
+    @Setter @Getter private boolean underProgress;
     @Setter @Getter private Direction direction;
 
-    public Elevator(int floorTotal) {
+    public Elevator(int floorTotal, Comparator personComparator) {
         this.currentFloor = new Random().nextInt(floorTotal);
+        this.queue = new PriorityQueue<>(personComparator);
     }
 
-    public void addPersonToQueueOutside(Person person){
-        outside.add(person);
+    public void addPersonToQueue(Person person){
+        queue.add(person);
     }
-    public void addPersonToQueueInside(Person person){
-        inside.add(person);
-    }
-
-    //Comparator anonymous class implementation
-    private static Comparator<Person> personComparator = (p1, p2) -> (int) (p1.getCurrentFloor() - p2.getCurrentFloor());
 }

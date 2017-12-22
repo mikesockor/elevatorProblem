@@ -1,8 +1,8 @@
 package com.chatfuel;
 
-import com.chatfuel.domain.Direction;
 import com.chatfuel.domain.Elevator;
 import com.chatfuel.domain.Person;
+import com.chatfuel.services.ElevatorServiceBaseImplGen1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,20 +11,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.Instant;
+
 
 @Controller
 public class ElevatorController {
 
-    private final ElevatorService service;
+    private final ElevatorServiceBaseImplGen1 service;
     @Autowired
-    public ElevatorController(ElevatorService service) {
+    public ElevatorController(ElevatorServiceBaseImplGen1 service) {
         this.service = service;
     }
 
     @PostMapping
     @SuppressWarnings("unchecked")
     @RequestMapping(path="/initiate")
-    public ResponseEntity innitialiseSystem (@RequestBody ElevatorService entity) {
+    public ResponseEntity innitialiseSystem (@RequestBody ElevatorServiceBaseImplGen1 entity) {
 
         service.setDoorsDelay(entity.getDoorsDelay());
         service.setFloorHeight(entity.getFloorHeight());
@@ -35,18 +37,21 @@ public class ElevatorController {
         service.setElevatorNumber(entity.getElevatorNumber());
 
         service.elevatorInitiate();
+        service.getElevators().forEach(e->System.out.println(e.toString()+" Current floor is: "+e.getCurrentFloor()));
+
         return new ResponseEntity(service, HttpStatus.OK);
     }
 
     @PostMapping
     @SuppressWarnings("unchecked")
-    @RequestMapping(path="/callOutside")
+    @RequestMapping(path="/call")
     public ResponseEntity callOutside (@RequestBody Person person) {
 
+        person.setTimeStamp(Instant.now().toEpochMilli());
         Elevator applicableElevator = service.getApplicableElevator();
-        applicableElevator.addPersonToQueueOutside(person);
+        applicableElevator.addPersonToQueue(person);
 
-        if (!applicableElevator.isUnderOperate())
+        if (!applicableElevator.isUnderProgress())
             service.operateElevator(applicableElevator);
 
         return new ResponseEntity(applicableElevator, HttpStatus.OK);

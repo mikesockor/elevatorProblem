@@ -1,11 +1,10 @@
-package com.chatfuel;
+package com.chatfuel.services;
 
 import com.chatfuel.domain.Direction;
 import com.chatfuel.domain.Elevator;
 import com.chatfuel.domain.Person;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,21 +12,15 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@Service
-public class ElevatorService {
+public class ElevatorServiceBase {
 
     @Setter @Getter private int floorTotal;
     @Setter @Getter private double floorHeight;
     @Setter @Getter private int speed;
     @Setter @Getter private int doorsDelay;
     @Setter @Getter private int elevatorNumber;
-
-    private List<Elevator> elevators;
-
-    public void elevatorInitiate(){
-        elevators = Collections.nCopies(elevatorNumber, new Elevator(floorTotal));
-        elevators.forEach(e->System.out.println(e.toString()+" Current floor is: "+e.getCurrentFloor()));
-    }
+    @Setter @Getter private Comparator<Person> personComparator;// = (p1, p2) -> (int) (p1.getCurrentFloor() - p2.getCurrentFloor());
+    @Setter @Getter private List<Elevator> elevators;
 
     /**
      * Implement here advanced choosing elevator in case of multi
@@ -36,26 +29,22 @@ public class ElevatorService {
 
     public Elevator getApplicableElevator(){
         //TODO avoid get by index
-        return elevators.get(0);
+        return elevators.stream().findAny().get();
     }
 
     public void operateElevator(Elevator elevator) {
 
-        Person nextPerson;
-        IntSummaryStatistics inStream;
-        int requiredFloor;
+        Person personForOperate = elevator.getQueue().poll();
+        if (personForOperate!=null)
+            operatePerson(elevator, personForOperate);
 
-        if (elevator.isUnderOperate()){
-            nextPerson = elevator.getInside().poll();
-            requiredFloor = nextPerson.getDesireFloor();
-        }
-        else {
-            nextPerson = elevator.getOutside().poll();
-            elevator.setUnderOperate(true);
-            elevator.getInside().add(nextPerson);
-            requiredFloor = nextPerson.getCurrentFloor();
-        }
-        inStream = IntStream
+    }
+
+    public void operatePerson(Elevator elevator, Person person){
+
+        int requiredFloor = person.isInProgress() ? person.getDesireFloor() : person.getCurrentFloor();
+
+        IntSummaryStatistics inStream = IntStream
                 .of(requiredFloor, elevator.getCurrentFloor())
                 .summaryStatistics();
 
@@ -69,6 +58,8 @@ public class ElevatorService {
                     .boxed()
                     .sorted(elevator.getDirection()==Direction.UP ? Comparator.naturalOrder() : Comparator.reverseOrder() )
                     .forEach(e->{
+
+                        elevator.setUnderProgress(true);
 
                         try {
                             Thread.sleep((long)(speed/floorHeight*1000) );
@@ -84,10 +75,16 @@ public class ElevatorService {
 
             operateDoorToOpen(elevator);
 
-            if (elevator.getInside().size()>0 || elevator.getOutside().size()>0)
-                operateElevator(elevator);
+            if (!person.isInProgress()){
+                person.setInProgress(true);
+                operatePerson(elevator, person);
+                return;
+            }
 
-            elevator.setUnderOperate(false);
+            if (elevator.getQueue().size()>0)
+                operateElevator(elevator);
+            else
+                elevator.setUnderProgress(false);
 
         };
         Thread t = new Thread(runnable);
@@ -95,7 +92,7 @@ public class ElevatorService {
 
     }
 
-    private void operateDoorToClose(Elevator elevator){
+    public void operateDoorToClose(Elevator elevator){
 
         if (elevator.isDoorsOpened()){
             try {
@@ -109,7 +106,7 @@ public class ElevatorService {
 
     }
 
-    private void operateDoorToOpen(Elevator elevator){
+    public void operateDoorToOpen(Elevator elevator){
 
         elevator.setDoorsOpened(true);
         try {
