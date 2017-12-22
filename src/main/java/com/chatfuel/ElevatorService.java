@@ -43,20 +43,21 @@ public class ElevatorService {
 
         Person nextPerson;
         IntSummaryStatistics inStream;
+        int requiredFloor;
 
         if (elevator.isUnderOperate()){
             nextPerson = elevator.getInside().poll();
-            inStream = IntStream
-                    .of(nextPerson.getDesireFloor(), elevator.getCurrentFloor())
-                    .summaryStatistics();
+            requiredFloor = nextPerson.getDesireFloor();
         }
         else {
-            elevator.setUnderOperate(true);
             nextPerson = elevator.getOutside().poll();
-            inStream = IntStream
-                    .of(nextPerson.getCurrentFloor(), elevator.getCurrentFloor())
-                    .summaryStatistics();
+            elevator.setUnderOperate(true);
+            elevator.getInside().add(nextPerson);
+            requiredFloor = nextPerson.getCurrentFloor();
         }
+        inStream = IntStream
+                .of(requiredFloor, elevator.getCurrentFloor())
+                .summaryStatistics();
 
         elevator.setDirection(elevator.getCurrentFloor()==inStream.getMin() ? Direction.UP : Direction.DOWN);
 
@@ -82,8 +83,6 @@ public class ElevatorService {
                     });
 
             operateDoorToOpen(elevator);
-
-//            elevator.getInside().add(nextPerson);
 
             if (elevator.getInside().size()>0 || elevator.getOutside().size()>0)
                 operateElevator(elevator);
