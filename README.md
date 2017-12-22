@@ -10,9 +10,8 @@ http://localhost:8080/initiate
     "elevatorNumber": 1
 }
 
-http://localhost:8080/callOutside
+http://localhost:8080/call
 {
-    "direction": 0,
-    "currentFloor": 13,
-    "desireFloor": 15
+    "currentFloor": 10,
+    "desireFloor": 13
 }
