@@ -28,29 +28,31 @@ http://localhost:8080/gen2/call
 
 Output
 
->com.chatfuel.domain.Elevator@180256b5 Current floor is: 3
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 3
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 4
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 5
->com.chatfuel.domain.Elevator@180256b5 Doors open
->com.chatfuel.domain.Elevator@180256b5 Doors are closing
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 5
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 6
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 7
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 8
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 9
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 10
->com.chatfuel.domain.Elevator@180256b5 Doors open
->com.chatfuel.domain.Elevator@180256b5 Doors are closing
->com.chatfuel.domain.Elevator@180256b5▼ Current floor is: 10
->com.chatfuel.domain.Elevator@180256b5▼ Current floor is: 9
->com.chatfuel.domain.Elevator@180256b5 Doors open
->com.chatfuel.domain.Elevator@180256b5 Doors are closing
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 9
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 10
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 11
->com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 12
->com.chatfuel.domain.Elevator@180256b5 Doors open
+```
+com.chatfuel.domain.Elevator@180256b5 Current floor is: 3
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 3
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 4
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 5
+com.chatfuel.domain.Elevator@180256b5 Doors open
+com.chatfuel.domain.Elevator@180256b5 Doors are closing
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 5
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 6
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 7
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 8
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 9
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 10
+com.chatfuel.domain.Elevator@180256b5 Doors open
+com.chatfuel.domain.Elevator@180256b5 Doors are closing
+com.chatfuel.domain.Elevator@180256b5▼ Current floor is: 10
+com.chatfuel.domain.Elevator@180256b5▼ Current floor is: 9
+com.chatfuel.domain.Elevator@180256b5 Doors open
+com.chatfuel.domain.Elevator@180256b5 Doors are closing
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 9
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 10
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 11
+com.chatfuel.domain.Elevator@180256b5▲ Current floor is: 12
+com.chatfuel.domain.Elevator@180256b5 Doors open
+```
 
 ___________________________________________________________
 upcoming future
