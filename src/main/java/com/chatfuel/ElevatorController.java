@@ -3,6 +3,7 @@ package com.chatfuel;
 import com.chatfuel.domain.Elevator;
 import com.chatfuel.domain.Person;
 import com.chatfuel.services.ElevatorServiceBaseImplGen1;
+import com.chatfuel.services.ElevatorServiceBaseImplGen2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,21 +13,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.Instant;
+import java.util.PriorityQueue;
 
 
 @Controller
+@RequestMapping(path="/gen2")
 public class ElevatorController {
 
-    private final ElevatorServiceBaseImplGen1 service;
+    private final ElevatorServiceBaseImplGen2 service;
     @Autowired
-    public ElevatorController(ElevatorServiceBaseImplGen1 service) {
+    public ElevatorController(ElevatorServiceBaseImplGen2 service) {
         this.service = service;
     }
 
     @PostMapping
     @SuppressWarnings("unchecked")
     @RequestMapping(path="/initiate")
-    public ResponseEntity innitialiseSystem (@RequestBody ElevatorServiceBaseImplGen1 entity) {
+    public ResponseEntity innitialiseSystem (@RequestBody ElevatorServiceBaseImplGen2 entity) {
 
         service.setDoorsDelay(entity.getDoorsDelay());
         service.setFloorHeight(entity.getFloorHeight());
@@ -37,7 +40,10 @@ public class ElevatorController {
         service.setElevatorNumber(entity.getElevatorNumber());
 
         service.elevatorInitiate();
-        service.getElevators().forEach(e->System.out.println(e.toString()+" Current floor is: "+e.getCurrentFloor()));
+        service.getElevators().forEach(e->{
+            e.setQueue(new PriorityQueue<>(service.getPersonComparator()));
+            System.out.println(e.toString()+" Current floor is: "+e.getCurrentFloor());
+        });
 
         return new ResponseEntity(service, HttpStatus.OK);
     }

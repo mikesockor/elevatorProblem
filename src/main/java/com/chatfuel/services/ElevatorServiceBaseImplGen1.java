@@ -10,7 +10,7 @@ public class ElevatorServiceBaseImplGen1 extends ElevatorServiceBase implements 
     @Override
     public void elevatorInitiate(){
         setPersonComparator((p1, p2) -> (int) (p1.getTimeStamp() - p2.getTimeStamp()));
-        setElevators(Collections.nCopies(super.getElevatorNumber(), new Elevator(super.getFloorTotal(),getPersonComparator())));
+        setElevators(Collections.nCopies(super.getElevatorNumber(), new Elevator(super.getFloorTotal())));
     }
 
 }

@@ -19,7 +19,7 @@ public class ElevatorServiceBase {
     @Setter @Getter private int speed;
     @Setter @Getter private int doorsDelay;
     @Setter @Getter private int elevatorNumber;
-    @Setter @Getter private Comparator<Person> personComparator;// = (p1, p2) -> (int) (p1.getCurrentFloor() - p2.getCurrentFloor());
+    @Setter @Getter private Comparator<Person> personComparator;
     @Setter @Getter private List<Elevator> elevators;
 
     /**
@@ -37,6 +37,8 @@ public class ElevatorServiceBase {
         Person personForOperate = elevator.getQueue().poll();
         if (personForOperate!=null)
             operatePerson(elevator, personForOperate);
+        else
+            System.out.println(elevator.toString()+ " is awaiting");
 
     }
 
@@ -75,10 +77,10 @@ public class ElevatorServiceBase {
 
             operateDoorToOpen(elevator);
 
+            // turn person back to queue prior kind if person has not beet completed
             if (!person.isInProgress()){
                 person.setInProgress(true);
-                operatePerson(elevator, person);
-                return;
+                elevator.addPersonToQueue(person);
             }
 
             if (elevator.getQueue().size()>0)

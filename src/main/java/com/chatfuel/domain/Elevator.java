@@ -14,9 +14,8 @@ public class Elevator {
     @Setter @Getter private boolean underProgress;
     @Setter @Getter private Direction direction;
 
-    public Elevator(int floorTotal, Comparator personComparator) {
+    public Elevator(int floorTotal) {
         this.currentFloor = new Random().nextInt(floorTotal);
-        this.queue = new PriorityQueue<>(personComparator);
     }
 
     public void addPersonToQueue(Person person){
