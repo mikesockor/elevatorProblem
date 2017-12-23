@@ -60,4 +60,4 @@ gen4, which support elevator choice with pre calculated queue
 before come in elevator you should set your desire floor
 like in Sheraton towers hotel
 
-[logo]: https://github.com/mikesockor/elevatorProblem/blob/master/src/main/resources/995.jpg "Sheraton elevators"
+https://github.com/mikesockor/elevatorProblem/blob/master/src/main/resources/995.jpg
