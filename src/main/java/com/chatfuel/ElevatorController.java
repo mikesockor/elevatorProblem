@@ -2,7 +2,7 @@ package com.chatfuel;
 
 import com.chatfuel.domain.Elevator;
 import com.chatfuel.domain.Person;
-import com.chatfuel.services.ElevatorServiceBaseImplGen1;
+import com.chatfuel.services.ElevatorService;
 import com.chatfuel.services.ElevatorServiceBaseImplGen2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ import java.util.PriorityQueue;
 @RequestMapping(path="/gen2")
 public class ElevatorController {
 
-    private final ElevatorServiceBaseImplGen2 service;
+    private final ElevatorService service;
     @Autowired
     public ElevatorController(ElevatorServiceBaseImplGen2 service) {
         this.service = service;

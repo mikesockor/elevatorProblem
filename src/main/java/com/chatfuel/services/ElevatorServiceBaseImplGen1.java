@@ -7,6 +7,11 @@ import java.util.Collections;
 @Service
 public class ElevatorServiceBaseImplGen1 extends ElevatorServiceBase implements ElevatorService {
 
+    /**
+     * Dummy elevator, FIFO
+     *
+     */
+
     @Override
     public void elevatorInitiate(){
         setPersonComparator((p1, p2) -> (int) (p1.getTimeStamp() - p2.getTimeStamp()));

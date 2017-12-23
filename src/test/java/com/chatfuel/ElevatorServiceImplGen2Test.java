@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ElevatorServiceImplGen2Test {
 
-    Elevator elevator;
+    private Elevator elevator;
 
     @Before
     public void prepare(){

@@ -8,11 +8,11 @@ import java.util.Collections;
 import java.util.Comparator;
 
 @Service
-public class ElevatorServiceBaseImplGen2 extends ElevatorServiceBase implements ElevatorService {
+public class ElevatorServiceBaseImplGen3 extends ElevatorServiceBase implements ElevatorService {
 
     /**
-     * Gen2 elevator, with outside & inside priority
-     * change direction not allowed
+     * Gen3 elevator, with outside & inside priority
+     * change direction supported
      *
      */
 
@@ -23,7 +23,7 @@ public class ElevatorServiceBaseImplGen2 extends ElevatorServiceBase implements 
             if (getApplicableElevator().isUnderProgress())
                 return e.getDirection()==getApplicableElevator().getDirection()
                         ? Math.abs(e.getDesireFloor()-getApplicableElevator().getCurrentFloor())
-                        : 0;
+                        : Math.abs(Math.abs(e.getCurrentFloor()-e.getDesireFloor()) - getApplicableElevator().getCurrentFloor());
             else
                 return Math.abs(e.getCurrentFloor()-getApplicableElevator().getCurrentFloor());
         });

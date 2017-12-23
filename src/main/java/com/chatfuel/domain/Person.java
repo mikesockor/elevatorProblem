@@ -1,10 +1,12 @@
 package com.chatfuel.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
 
+@NoArgsConstructor
 public class Person {
 
     @Setter @Getter private boolean inProgress;
@@ -20,15 +22,6 @@ public class Person {
         this.currentFloor = currentFloor;
         this.desireFloor = desireFloor;
         this.timeStamp = Instant.now().toEpochMilli();
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "inProgress=" + inProgress +
-                ", currentFloor=" + currentFloor +
-                ", desireFloor=" + desireFloor +
-                '}';
     }
 
 }
