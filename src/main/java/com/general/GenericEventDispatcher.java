@@ -35,7 +35,8 @@ public class GenericEventDispatcher implements EventDispatcher {
     public <T extends Event> void emitEventAsync(final T event) {
         // We guarantee that listener is capable of receiving its event type
         executor.execute(() ->
-                eventListeners.get(event.getClass()).forEach(e-> ((EventListener<T>)e).onEvent(event))
+                eventListeners.get(event.getClass())
+                        .forEach(listener -> ((EventListener<T>) listener).onEvent(event))
         );
     }
 
@@ -50,7 +51,7 @@ public class GenericEventDispatcher implements EventDispatcher {
         // We guarantee that listener is capable of receiving its message
         executor.execute(() ->
                 messageListeners.values()
-                        .forEach(listeners -> listeners.forEach(e->e.onMessage(message)))
+                        .forEach(listeners -> listeners.forEach(e -> e.onMessage(message)))
         );
     }
 }
