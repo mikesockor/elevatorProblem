@@ -26,11 +26,7 @@ public class GenericEventDispatcher implements EventDispatcher {
 
     @Override
     public <T extends Event> void addEventListener(Class<T> eventType, EventListener<T> listener) {
-
         eventListeners.computeIfAbsent(eventType, v -> Collections.singletonList(listener));
-//        List<EventListener<?>> existed = eventListeners.getOrDefault(eventType, Collections.singletonList(listener));
-//        eventListeners.put(eventType, existed);
-
     }
 
     @Override
