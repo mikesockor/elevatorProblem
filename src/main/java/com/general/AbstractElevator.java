@@ -8,10 +8,10 @@ import java.util.Queue;
 
 public abstract class AbstractElevator<E extends Event, P> implements EventListener<E> {
 
-    private Queue<E> eventQueue;
-    private P property;
-    private ElevatorStatus currentStatus;
-    private int currentFloor = 0;
+    private Queue<E>        eventQueue;
+    private P               property;
+    private ElevatorStatus  currentStatus;
+    private int             currentFloor = 0;
     private EventDispatcher dispatcher;
 
     public AbstractElevator(EventDispatcher dispatcher, Queue<E> eventQueue, P property) {
@@ -58,7 +58,8 @@ public abstract class AbstractElevator<E extends Event, P> implements EventListe
     public static void sleep(int value) {
         try {
             Thread.sleep(value);
-        } catch (InterruptedException ex) {
+        }
+        catch (InterruptedException ex) {
             ex.printStackTrace();
         }
     }

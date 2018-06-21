@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class AbstractSystem<R extends AbstractElevator, E extends Event> implements EventListener<E>, MessageListener {
 
-    private List<R> elevators;
+    private List<R>         elevators;
     private EventDispatcher dispatcher;
 
     public List<R> getElevators() {
