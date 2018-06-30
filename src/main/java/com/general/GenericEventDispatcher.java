@@ -25,8 +25,14 @@ public class GenericEventDispatcher implements EventDispatcher {
     @Override
     public <T extends Event> void addEventListener(Class<T> eventType, EventListener<T> listener) {
 
-        List<EventListener<?>> existed = eventListeners.getOrDefault(eventType, Collections.singletonList(listener));
-        eventListeners.put(eventType, existed);
+        eventListeners.merge(eventType, Collections.EMPTY_LIST,
+                (listeners, value) -> {
+                    listeners.add(listener);
+                    return listeners;
+                });
+
+//        List<EventListener<?>> existed = eventListeners.getOrDefault(eventType, Collections.singletonList(listener));
+//        eventListeners.put(eventType, existed);
 
     }
 
@@ -42,8 +48,15 @@ public class GenericEventDispatcher implements EventDispatcher {
 
     @Override
     public void addMessageListener(Class messageType, MessageListener listener) {
-        List<MessageListener> existed = messageListeners.getOrDefault(messageType, Collections.singletonList(listener));
-        messageListeners.put(messageType, existed);
+
+        messageListeners.merge(messageType, Collections.EMPTY_LIST,
+                (listeners, value) -> {
+                    listeners.add(listener);
+                    return listeners;
+                });
+
+//        List<MessageListener> existed = messageListeners.getOrDefault(messageType, Collections.singletonList(listener));
+//        messageListeners.put(messageType, existed);
     }
 
     @Override

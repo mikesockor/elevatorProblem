@@ -13,8 +13,10 @@ import java.util.stream.IntStream;
 public class Gen1Elevator extends AbstractElevator<Gen1Event, Gen1Property> {
 
     private static Comparator<Gen1Event> comparatorFifo =
-            (p1, p2) -> (int) ((p1.getTimeStamp() - (p1.isInternal()?10000:0))
-                    - (p2.getTimeStamp())- (p2.isInternal()?10000:0));
+            (p1, p2) -> (int) (
+                    (p1.getTimeStamp() - (p1.isInternal() ? 100000 * p1.getFloor() : 0))
+                            - (p2.getTimeStamp()) - (p2.isInternal() ? 100000 * p2.getFloor() : 0)
+            );
 
     Gen1Elevator(EventDispatcher dispatcher, Gen1Property gen1Property) {
         super(dispatcher, new PriorityQueue<>(comparatorFifo), gen1Property);
