@@ -11,9 +11,9 @@ import java.util.Objects;
 @ToString
 public class Gen1Event implements Event {
 
-    @Setter @Getter private int floor;
+    @Setter @Getter private int     floor;
     @Setter @Getter private boolean internal;
-    @Getter private long timeStamp;
+    @Getter private         long    timeStamp;
 
     public Gen1Event(int floor, boolean internal) {
         this.timeStamp = Instant.now().toEpochMilli();

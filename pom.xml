@@ -10,10 +10,12 @@
 
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>1.18.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- ======================================================== -->

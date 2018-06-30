@@ -12,8 +12,8 @@ public class Gen1System extends AbstractSystem<Gen1Elevator, Gen1Event> {
     @Override
     public synchronized void onEvent(Gen1Event event) {
         getElevators().get(0)
-                .getDispatcher()
-                .emitEventAsync(event);
+            .getDispatcher()
+            .emitEventAsync(event);
     }
 
     @Override
